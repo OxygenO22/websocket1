@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [messages, setMessages] = useState([
+    {message: 'Hello Viktor', id: '1', user: {id: '11', name: "Alex"}},
+    {message: 'Hello Alex', id: '2', user: {id: '22', name: "Viktor"}},
+  ])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div style={{border: '1px solid black', padding: '10px', height: '300px', width:'300px', msOverflowY: 'scroll'}}>
+        {messages.map(m => 
+          <div key={m.id}>
+            <b>{m.user.name}: </b> {m.message}
+            <hr/>
+          </div>
+        )}
+      </div>
+      <textarea></textarea>
+      <button>Send</button>
     </div>
   );
 }
