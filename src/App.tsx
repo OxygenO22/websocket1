@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { splitIntoWords } from './tests/01';
+import Objects from './objects/Objects';
 
 function App() {
   const sentence = "Hello my friends";
@@ -8,7 +9,7 @@ function App() {
   console.log(result);
   return (
     <div className="App">
-      
+      <Objects />
     </div>
   );
 }
