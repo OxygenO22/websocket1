@@ -49,8 +49,16 @@ const Objects = () => {
     ],
   };
 
-  console.log(student.adress.city);
-  console.log(student.technologies[2].title);
+  const copyStudent = {...student, adress: {...student.adress, city: {...student.adress.city}}, technologies: student.technologies.map(el => ({...el, isStudied: false})) }
+
+  const copyStudentSuper = structuredClone(student);
+  copyStudentSuper.age = 55;
+  copyStudentSuper.adress.street = 'Super';
+  
+
+  console.log("copyStudentSuper: ", copyStudentSuper);
+  console.log("copyStudent: ", copyStudent);
+  console.log('student: ', student);
   return (
     <div>
       <h1>{student.technologies[2].title}</h1>

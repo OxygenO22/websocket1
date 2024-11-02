@@ -6,7 +6,6 @@ import Objects from './objects/Objects';
 function App() {
   const sentence = "Hello my friends";
   const result = splitIntoWords(sentence);
-  console.log(result);
   return (
     <div className="App">
       <Objects />
