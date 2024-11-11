@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import { splitIntoWords } from './tests/01';
-import Objects from './objects/Objects';
+import { Counter } from './Counter/Counter';
 
 function App() {
-  const sentence = "Hello my friends";
-  const result = splitIntoWords(sentence);
   return (
     <div className="App">
-      <Objects />
+      <Counter />
     </div>
   );
 }
