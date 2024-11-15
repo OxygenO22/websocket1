@@ -6,6 +6,7 @@ import { useAppSelector } from '../store/hook';
 
 const TodoList = () => {
   const todos = useAppSelector(state => state.todo.list)
+
   return (
     <ul>
       {todos.map((todo) => (

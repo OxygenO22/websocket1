@@ -1,5 +1,5 @@
 import React from 'react'
-import { removeTodo, toggleTodo } from "../store/todoSlice";
+import { deleteTodo, toggleTodo } from "../store/todoSlice";
 import { useAppDispatch } from '../store/hook';
 
 type TodoItemProps = {
@@ -19,7 +19,7 @@ const TodoItem = ({ id, title, completed }: TodoItemProps) => {
         onChange={() => dispatch(toggleTodo(id))}
       />
       {title}
-      <button onClick={() => dispatch(removeTodo(id))}>X</button>
+      <button onClick={() => dispatch(deleteTodo(id))}>X</button>
     </li>
   );
 };

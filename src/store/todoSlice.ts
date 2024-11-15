@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TodoType = {
   id: string;
@@ -8,11 +8,55 @@ export type TodoType = {
 
 type TodosState = {
   list: TodoType[]
+  status: null | string
+  error: null | string
 }
 
 const initialState: TodosState = {
   list: [],
+  status: null,
+  error: null,
 }
+
+export const fetchTodos = createAsyncThunk(
+  "todo/fetchTodos",
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10");
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch todos");
+      }
+      
+      const data = await response.json();
+      return data;
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const deleteTodo = createAsyncThunk(
+  "todo/deleteTodo",
+  async (id: string, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: "DELETE",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to delete todo");
+      }
+      dispatch(removeTodo(id))
+      
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+
 
 const todoSlice = createSlice({
   name: "todo",
@@ -30,7 +74,34 @@ const todoSlice = createSlice({
       toggledTodo.completed = !toggledTodo.completed}
     },
   },
+  extraReducers: (builder) => {
+    builder
+     .addCase(fetchTodos.pending, (state) => {
+        state.status = 'loading'
+        state.error = null;
+      })
+     .addCase(fetchTodos.fulfilled, (state, action) => {
+        state.status = 'resolved'
+        state.list = action.payload;
+      })
+     .addCase(fetchTodos.rejected, (state, action: any) => {
+        state.status = 'rejected'
+        state.error = action.payload;
+      })
+      .addCase(deleteTodo.pending, (state) => {
+        state.status = 'loading'
+        state.error = null;
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.status = 'resolved'
+      })
+     .addCase(deleteTodo.rejected, (state, action: any) => {
+        state.status = 'rejected'
+        state.error = action.payload;
+      })
+  },
 })
+
 
 export const { addTodo, removeTodo, toggleTodo } = todoSlice.actions;
 
