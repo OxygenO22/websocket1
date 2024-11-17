@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import TodoList from "./todoList/TodoList";
 import MyInput from "./myInput/MyInput";
-import { addTodo, fetchTodos } from './store/todoSlice'
+import { addNewTodo, fetchTodos } from './store/todoSlice'
 import { useAppDispatch, useAppSelector } from "./store/hook";
 
 
@@ -13,7 +13,7 @@ const App = () => {
   const {status, error} = useAppSelector(state => state.todo)
 
   const addTask = () => {
-    dispatch(addTodo(title))
+    dispatch(addNewTodo(title))
     setTitle("")
   };  
 

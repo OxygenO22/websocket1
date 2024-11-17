@@ -1,5 +1,5 @@
 import React from 'react'
-import { deleteTodo, toggleTodo } from "../store/todoSlice";
+import { deleteTodo, toggleStatus } from "../store/todoSlice";
 import { useAppDispatch } from '../store/hook';
 
 type TodoItemProps = {
@@ -16,7 +16,7 @@ const TodoItem = ({ id, title, completed }: TodoItemProps) => {
       <input
         type="checkbox"
         checked={completed}
-        onChange={() => dispatch(toggleTodo(id))}
+        onChange={() => dispatch(toggleStatus(id))}
       />
       {title}
       <button onClick={() => dispatch(deleteTodo(id))}>X</button>
