@@ -1,6 +1,6 @@
 import React from 'react'
 import TodoItem from './TodoItem';
-import { useAppSelector } from '../store/hook';
+import { useAppSelector } from '../../store/hook';
 
 
 

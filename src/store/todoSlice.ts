@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export type TodoType = {
   id: string;
@@ -22,16 +22,11 @@ export const fetchTodos = createAsyncThunk<TodoType[], undefined, {rejectValue: 
   "todo/fetchTodos",
   async (_, {rejectWithValue}) => {
     
-      const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10");
-      
-      if (!response.ok) {
-        return rejectWithValue("Failed to fetch todos");
-      }
-      
-      const data = await response.json();
-      return data;
-      
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10");
     
+    if (!response.ok) return rejectWithValue("Failed to fetch todos");
+    
+   return await response.json();
   }
 )
 
@@ -39,14 +34,13 @@ export const deleteTodo = createAsyncThunk<string, string, {rejectValue: string}
   "todo/deleteTodo",
   async (id: string, { rejectWithValue }) => {
     
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
-        method: "DELETE",
-      });
-      
-      if (!response.ok) {
-        return rejectWithValue("Failed to delete todo");
-      }
-      return id;
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+      method: "DELETE",
+    });
+    
+    if (!response.ok) return rejectWithValue("Failed to delete todo");
+    
+    return id;
   }
 )
 
@@ -55,22 +49,19 @@ export const toggleStatus = createAsyncThunk<TodoType, string, {rejectValue: str
   async (id: string, {rejectWithValue, getState}) => {
     const todo = getState().todo.list.find(todo => todo.id === id)
 
-    if (!todo) {
-      return rejectWithValue("Todo not found")
-    }
+    if (!todo) return rejectWithValue("Todo not found")
    
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ completed:!todo.completed }),
-      })
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ completed:!todo.completed }),
+    })
 
-      if (!response.ok) {
-       return rejectWithValue("Failed to change status todo");
-      }
-      return (await response.json()) as TodoType
+    if (!response.ok) return rejectWithValue("Failed to change status todo");
+
+    return (await response.json()) as TodoType
   }
 )
 
@@ -78,22 +69,20 @@ export const addNewTodo = createAsyncThunk<TodoType, string, {rejectValue: strin
   'todos/addNewTodo',
   async (title: string, { rejectWithValue}) => {
     
-      const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, userId: 1, completed: false }),
-      });
-      
-      if (!response.ok) {
-        return rejectWithValue("Failed to add new todo");
-      }
-      return (await response.json()) as TodoType
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, userId: 1, completed: false }),
+    });
+    
+    if (!response.ok) return rejectWithValue("Failed to add new todo");
+
+    return (await response.json()) as TodoType
      
   }
 )
-
 
 const setError = (state: TodosState, action: any) => {
   state.status = 'rejected'

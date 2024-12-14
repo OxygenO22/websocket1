@@ -1,6 +1,6 @@
 import React from 'react'
-import { deleteTodo, toggleStatus } from "../store/todoSlice";
-import { useAppDispatch } from '../store/hook';
+import { deleteTodo, toggleStatus } from "../../store/todoSlice";
+import { useAppDispatch } from '../../store/hook';
 
 type TodoItemProps = {
   id: string;
