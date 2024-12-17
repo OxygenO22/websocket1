@@ -36,10 +36,14 @@ const App = () => {
       {status === "loading" && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
       <TodoList />
+      <hr style={{ width: "100%", height: "2px", color: "gray" }} />
       <div>
-        <button onClick={openClosePopUp}>{isOpen ? 'Close popUp' : 'Open popUp'}</button>
+        <button onClick={openClosePopUp}>
+          {isOpen ? "Close popUp" : "Open popUp"}
+        </button>
         {isOpen && <PopUp />}
       </div>
+      <hr style={{ width: "100%", height: "2px", color: "gray" }} />
     </div>
   );
 };
